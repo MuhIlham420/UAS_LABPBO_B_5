@@ -1,2 +1,3 @@
-public class Pembayaran {
+public interface Pembayaran {
+    void prosesBayar(double total);
 }
