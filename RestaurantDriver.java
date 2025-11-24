@@ -1,3 +1,4 @@
+// RestaurantDriver.java
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +20,7 @@ public class RestaurantDriver {
         for (int i = 0; i < paddingSize; i++) {
             padding += " ";
         }
-
+        
         // Sesuaikan jika panjang teks ganjil/genap
         String extraPadding = (text.length() % 2 == 0) ? "" : " ";
         if ((width - text.length() - 2) % 2 != 0) {
@@ -36,9 +37,9 @@ public class RestaurantDriver {
 
         while (true) {
             if (loggedInUser == null) {
-                showMenuUtama();
+                showMenuUtama(); 
             }
-
+            
             if (loggedInUser != null) {
                 if (loggedInUser instanceof Pegawai) {
                     Pegawai pegawai = (Pegawai) loggedInUser;
@@ -52,11 +53,11 @@ public class RestaurantDriver {
                 } else if (loggedInUser instanceof Customer) {
                     showMenuCustomer((Customer) loggedInUser);
                 }
-                loggedInUser = null;
+                loggedInUser = null; 
             }
         }
     }
-
+    
     private static void showMenuUtama() {
         System.out.println("\n--- MENU UTAMA ---");
         System.out.println("1. Login");
@@ -65,19 +66,14 @@ public class RestaurantDriver {
         System.out.print("Pilihan: ");
         int pilihan = getIntInput();
         switch (pilihan) {
-            case 1:
-                handleLogin();
-                break;
-            case 2:
-                handleBuatAkunCustomer();
-                break;
+            case 1: handleLogin(); break;
+            case 2: handleBuatAkunCustomer(); break;
             case 3:
                 System.out.println("Terima kasih telah menggunakan sistem.");
-                scanner.close();
-                System.exit(0);
+                scanner.close(); 
+                System.exit(0); 
                 break;
-            default:
-                System.out.println("Pilihan tidak valid.");
+            default: System.out.println("Pilihan tidak valid.");
         }
     }
 
@@ -87,15 +83,15 @@ public class RestaurantDriver {
         String nama = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
-        loggedInUser = system.login(nama, password);
-
+        loggedInUser = system.login(nama, password); 
+        
         if (loggedInUser != null) {
             printBoxed("Login berhasil! Selamat datang, " + loggedInUser.getNama() + ".", 60);
         } else {
             System.out.println("Login gagal. Nama pengguna atau password salah.");
         }
     }
-
+    
     private static void handleBuatAkunCustomer() {
         System.out.println("\n--- BUAT AKUN CUSTOMER ---");
         System.out.print("Masukkan Nama: ");
@@ -103,8 +99,8 @@ public class RestaurantDriver {
         System.out.print("Masukkan Password: ");
         String password = scanner.nextLine();
         if (nama.isEmpty() || password.isEmpty()) {
-            System.out.println("Nama dan Password tidak boleh kosong.");
-            return;
+             System.out.println("Nama dan Password tidak boleh kosong.");
+             return;
         }
         if (system.cekNamaPengguna(nama)) {
             System.out.println("Nama pengguna '" + nama + "' sudah ada. Silakan gunakan nama lain.");
@@ -120,8 +116,8 @@ public class RestaurantDriver {
             System.out.println("\n--- Menu Pelayan: " + pelayan.getNama() + " ---");
             System.out.println("1. Buat Pesanan Baru");
             System.out.println("2. Lihat Status Semua Pesanan");
-            System.out.println("3. Perbarui Status Pesanan");
-            System.out.println("4. Logout");
+            System.out.println("3. Perbarui Status Pesanan"); 
+            System.out.println("4. Logout");                  
             System.out.print("Pilihan: ");
             int pilihan = getIntInput();
             switch (pilihan) {
@@ -136,15 +132,15 @@ public class RestaurantDriver {
                     break;
                 case 4:
                     System.out.println("Logout...");
-                    return;
+                    return; 
                 default:
                     System.out.println("Pilihan tidak valid.");
             }
         }
     }
-
+    
     private static void showMenuKoki(Pegawai koki) {
-        while (true) {
+         while (true) {
             System.out.println("\n--- Menu Koki: " + koki.getNama() + " ---");
             System.out.println("1. Lihat Daftar Pesanan");
             System.out.println("2. Ubah Status Pesanan");
@@ -159,26 +155,25 @@ public class RestaurantDriver {
                 case 2:
                     tampilkanDaftarPesananKoki();
                     if (system.getPesananByStatus("Dipesan").isEmpty()) {
-                        break;
+                        break; 
                     }
                     System.out.print("\nMasukkan ID Pesanan yang selesai (atau 'batal'): ");
                     String inputKoki = scanner.nextLine();
-
+                    
                     if (inputKoki.equalsIgnoreCase("batal")) {
                         System.out.println("Aksi dibatalkan.");
-                        break;
+                        break; 
                     }
                     try {
                         int idPesanan = Integer.parseInt(inputKoki);
                         Pesanan pesanan = system.findPesananById(idPesanan);
                         if (pesanan != null && pesanan.getStatus().equals("Dipesan")) {
                             koki.updateStatusPesanan(pesanan, "Selesai Dimasak");
-                            system.simpanSemuaDataPesanan();
+                            system.simpanSemuaDataPesanan(); 
                         } else if (pesanan == null) {
                             System.out.println("Pesanan tidak ditemukan.");
                         } else {
-                            System.out.println(
-                                    "Status pesanan ini tidak dapat diubah (Status: " + pesanan.getStatus() + ").");
+                            System.out.println("Status pesanan ini tidak dapat diubah (Status: " + pesanan.getStatus() + ").");
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Input tidak valid. Harap masukkan ID berupa angka atau 'batal'.");
@@ -186,32 +181,32 @@ public class RestaurantDriver {
                     break;
                 case 3:
                     System.out.println("Logout...");
-                    return;
+                    return; 
                 default:
                     System.out.println("Pilihan tidak valid.");
             }
         }
     }
-
+    
     private static void tampilkanDaftarPesananKoki() {
         System.out.println("\n--- Pesanan Perlu Dimasak (Status: Dipesan) ---");
         List<Pesanan> pesananDipesan = system.getPesananByStatus("Dipesan");
-
+        
         if (pesananDipesan.isEmpty()) {
             System.out.println("Tidak ada pesanan yang perlu dimasak.");
             return;
         }
-        System.out.printf("%-5s | %-7s | %-20s | %-5s | %-15s\n",
-                "ID", "Meja", "Pesanan", "Jml", "Catatan");
+        System.out.printf("%-5s | %-7s | %-20s | %-5s | %-15s\n", 
+            "ID", "Meja", "Pesanan", "Jml", "Catatan");
         System.out.println("---------------------------------------------------------------");
-
+        
         for (Pesanan p : pesananDipesan) {
-            boolean isFirstItem = true;
+            boolean isFirstItem = true; 
             for (DetailPesanan d : p.getDaftarItem()) {
                 String catatan = (d.getCatatan() == null || d.getCatatan().isEmpty()) ? "-" : d.getCatatan();
                 if (isFirstItem) {
                     System.out.printf("%-5d | %-7d | %-20s | %-5d | %-15s\n",
-                            p.getIdPesanan(), p.getMeja().getNomor(),
+                            p.getIdPesanan(), p.getMeja().getNomor(), 
                             d.getItem().getNama(), d.getJumlah(), catatan);
                     isFirstItem = false;
                 } else {
@@ -223,7 +218,7 @@ public class RestaurantDriver {
         }
     }
 
-    private static void showMenuKasir(Pegawai kasir) {
+     private static void showMenuKasir(Pegawai kasir) {
         while (true) {
             System.out.println("\n--- Menu Kasir: " + kasir.getNama() + " ---");
             System.out.println("1. Proses Pembayaran");
@@ -236,22 +231,22 @@ public class RestaurantDriver {
                 case 1:
                     tampilkanDaftarSiapBayar();
                     if (system.getPesananByStatus("Selesai Dimasak").isEmpty()) {
-                        break;
+                        break; 
                     }
-                    prosesPembayaran();
+                    prosesPembayaran(); 
                     break;
                 case 2:
                     tampilkanDaftarSiapBayar();
                     break;
                 case 3:
                     System.out.println("Logout...");
-                    return;
+                    return; 
                 default:
                     System.out.println("Pilihan tidak valid.");
             }
         }
     }
-
+    
     private static void tampilkanDaftarSiapBayar() {
         System.out.println("\n--- Pesanan Siap Bayar (Selesai Dimasak) ---");
         List<Pesanan> pesananSiapBayar = system.getPesananByStatus("Selesai Dimasak");
@@ -261,7 +256,7 @@ public class RestaurantDriver {
             System.out.printf("%-5s | %-7s | %-12s\n", "ID", "Meja", "Total");
             System.out.println("------------------------------");
             for (Pesanan p : pesananSiapBayar) {
-                System.out.printf("%-5d | %-7d | Rp%-10.2f\n",
+                 System.out.printf("%-5d | %-7d | Rp%-10.2f\n",
                         p.getIdPesanan(), p.getMeja().getNomor(), p.getTotalHarga());
             }
             System.out.println("------------------------------");
@@ -272,14 +267,27 @@ public class RestaurantDriver {
         while (true) {
             System.out.println("\n--- Menu Customer: " + customer.getNama() + " ---");
             System.out.println("1. Lihat Menu Restoran");
-            System.out.println("2. Logout");
+            System.out.println("2. Buat Pesanan");
+            System.out.println("3. Lihat Status Pesanan Saya");
+            System.out.println("4. Bayar Pesanan");
+            System.out.println("5. Logout");
             System.out.print("Pilihan: ");
+
             int pilihan = getIntInput();
             switch (pilihan) {
                 case 1:
                     system.lihatMenu();
                     break;
                 case 2:
+                    buatPesananCustomer(customer);
+                    break;
+                case 3:
+                    lihatPesananCustomer(customer);
+                    break;
+                case 4:
+                    pembayaranByCustomer(customer);
+                    break;
+                case 5:
                     System.out.println("Logout...");
                     return;
                 default:
@@ -288,20 +296,175 @@ public class RestaurantDriver {
         }
     }
 
+    private static void buatPesananCustomer(Customer customer) {
+        System.out.println("\n--- Buat Pesanan (Customer) ---");
+
+        System.out.println("Daftar Meja Tersedia:");
+        boolean mejaAda = false;
+        for (Meja m : system.getDaftarMeja()) {
+            if (m.getStatus().equals("Tersedia")) {
+                System.out.println("- Meja " + m.getNomor());
+                mejaAda = true;
+            }
+        }
+
+        if (!mejaAda) {
+            System.out.println("Maaf, tidak ada meja tersedia.");
+            return;
+        }
+
+        System.out.print("Pilih nomor meja: ");
+        int noMeja = getIntInput();
+        Meja mejaPilihan = system.findMejaByNomor(noMeja);
+
+        if (mejaPilihan == null || !mejaPilihan.getStatus().equals("Tersedia")) {
+            System.out.println("Meja tidak valid atau tidak tersedia.");
+            return;
+        }
+
+        Pesanan pesanan = system.buatPesananCustomer(customer, noMeja);
+        if (pesanan == null) {
+            System.out.println("Gagal membuat pesanan.");
+            return;
+        }
+
+        while (true) {
+            system.lihatMenu();
+            System.out.print("Masukkan ID Menu (atau 'selesai' untuk berhenti): ");
+            String inputMenu = scanner.nextLine();
+            if (inputMenu.equalsIgnoreCase("selesai")) break;
+            try {
+                int idMenu = Integer.parseInt(inputMenu);
+                MenuItem item = system.findMenuItemById(idMenu);
+
+                if (item == null) {
+                    System.out.println("Menu tidak ditemukan.");
+                    continue;
+                }
+
+                System.out.print("Jumlah: ");
+                int jumlah = getIntInput();
+                System.out.print("Catatan (opsional): ");
+                String catatan = scanner.nextLine();
+
+                pesanan.tambahDetailPesanan(new DetailPesanan(item, jumlah, catatan));
+                System.out.println(item.getNama() + " ditambahkan.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("Masukkan angka yang valid.");
+            }
+        }
+
+        if (pesanan.getDaftarItem().isEmpty()) {
+            System.out.println("Pesanan kosong. Dibatalkan.");
+            system.getDaftarPesanan().remove(pesanan);
+            pesanan.getMeja().setStatus("Tersedia");
+            system.simpanSemuaDataPesanan();
+            return;
+        }
+
+        system.simpanSemuaDataPesanan();
+        System.out.println("Pesanan berhasil dibuat dengan ID: " + pesanan.getIdPesanan());
+        System.out.println("Silakan tunggu pesanan selesai dimasak.");
+    }
+
+    private static void lihatPesananCustomer(Customer customer) {
+        System.out.println("\n--- Pesanan Anda ---");
+
+        List<Pesanan> list = system.getPesananByCustomer(customer);
+
+        if (list.isEmpty()) {
+            System.out.println("Anda belum memiliki pesanan.");
+            return;
+        }
+
+        for (Pesanan p : list) {
+            System.out.println("\nID Pesanan: " + p.getIdPesanan());
+            System.out.println("Meja: " + p.getMeja().getNomor());
+            System.out.println("Status: " + p.getStatus());
+            System.out.println("Detail:");
+            for (DetailPesanan d : p.getDaftarItem()) {
+                System.out.println("- " + d.getItem().getNama() + " x" + d.getJumlah()
+                                   + " (Catatan: " + d.getCatatan() + ")");
+            }
+            System.out.printf("Total: Rp%.2f\n", p.getTotalHarga());
+        }
+    }
+
+    private static void pembayaranByCustomer(Customer customer) {
+        System.out.println("\n--- Pembayaran Pesanan Anda ---");
+
+        List<Pesanan> list = system.getPesananByCustomer(customer);
+
+        boolean adaUntukBayar = false;
+        for (Pesanan p : list) {
+            if (p.getStatus().equals("Selesai Dimasak")) {
+                adaUntukBayar = true;
+                System.out.printf("- ID %d | Total Rp%.2f\n", p.getIdPesanan(), p.getTotalHarga());
+            }
+        }
+
+        if (!adaUntukBayar) {
+            System.out.println("Tidak ada pesanan yang siap dibayar.");
+            return;
+        }
+
+        System.out.print("Masukkan ID pesanan yang ingin dibayar: ");
+        int id = getIntInput();
+
+        Pesanan pesanan = system.findPesananById(id);
+
+        if (pesanan == null || pesanan.getCustomer() == null || pesanan.getCustomer().getId() != customer.getId()) {
+            System.out.println("ID tidak valid.");
+            return;
+        }
+
+        if (!pesanan.getStatus().equals("Selesai Dimasak")) {
+            System.out.println("Pesanan belum siap dibayar.");
+            return;
+        }
+
+        System.out.println("Pilih metode pembayaran:");
+        System.out.println("1. Cash");
+        System.out.println("2. Card");
+        System.out.println("3. QRIS");
+        System.out.print("Pilihan: ");
+        int pilihanMetode = getIntInput();
+        Pembayaran metodeBayar = null;
+        switch (pilihanMetode) {
+            case 1: metodeBayar = new CashPayment(); break;
+            case 2: metodeBayar = new CardPayment(); break;
+            case 3: metodeBayar = new QRISPayment(); break;
+            default:
+                System.out.println("Metode tidak valid. Pembayaran dibatalkan.");
+                return;
+        }
+        Transaksi trx = new Transaksi(system.getNextTransaksiId(), pesanan, metodeBayar);
+        trx.konfirmasi();
+        system.tambahTransaksi(trx);
+        
+        system.bayarPesananCustomer(customer, pesanan.getIdPesanan());
+
+        String strukText = Struk.cetak(trx);
+        system.simpanStrukKeFile(strukText);
+
+        System.out.println("Pembayaran berhasil! Terima kasih.");
+    }
+
     private static void updateStatusPesananByPegawai(Pegawai pegawai) {
         System.out.println("\n--- Perbarui Status Pesanan (Pegawai) ---");
         lihatSemuaPesanan();
         if (system.getDaftarPesanan().isEmpty()) {
-            return;
+            return; 
         }
         System.out.print("\nMasukkan ID Pesanan yang ingin diubah (atau 'batal' untuk kembali): ");
         String input = scanner.nextLine();
-
+        
         if (input.equalsIgnoreCase("batal")) {
             System.out.println("Aksi dibatalkan.");
-            return;
+            return; 
         }
-
+        
         try {
             int idPesanan = Integer.parseInt(input);
             Pesanan pesanan = system.findPesananById(idPesanan);
@@ -312,7 +475,7 @@ public class RestaurantDriver {
             System.out.println("Status pesanan saat ini: " + pesanan.getStatus());
             System.out.print("Masukkan status baru (atau 'batal' untuk membatalkan): ");
             String statusBaru = scanner.nextLine();
-
+            
             if (statusBaru.equalsIgnoreCase("batal")) {
                 System.out.println("Aksi dibatalkan.");
                 return;
@@ -321,8 +484,8 @@ public class RestaurantDriver {
                 System.out.println("Status tidak boleh kosong. Aksi dibatalkan.");
                 return;
             }
-            pegawai.updateStatusPesanan(pesanan, statusBaru);
-            system.simpanSemuaDataPesanan();
+            pegawai.updateStatusPesanan(pesanan, statusBaru); 
+            system.simpanSemuaDataPesanan(); 
         } catch (NumberFormatException e) {
             System.out.println("Input tidak valid. Harap masukkan ID berupa angka atau 'batal'.");
         }
@@ -330,11 +493,11 @@ public class RestaurantDriver {
 
     private static void buatPesananBaru() {
         System.out.println("\n--- Membuat Pesanan Baru ---");
-        System.out.println("Daftar Meja Tersedia:");
+        System.out.println("Daftar Meja Tersedia:"); 
         boolean mejaTersedia = false;
         for (Meja m : system.getDaftarMeja()) {
             if (m.getStatus().equals("Tersedia")) {
-                System.out.println("Meja No: " + m.getNomor());
+                System.out.println("Meja No: " + m.getNomor()); 
                 mejaTersedia = true;
             }
         }
@@ -342,7 +505,7 @@ public class RestaurantDriver {
             System.out.println("Maaf, semua meja sedang ditempati.");
             return;
         }
-        System.out.print("Pilih Nomor Meja: ");
+        System.out.print("Pilih Nomor Meja: "); 
         int noMeja = getIntInput();
         Meja mejaPilihan = system.findMejaByNomor(noMeja);
         if (mejaPilihan == null || !mejaPilihan.getStatus().equals("Tersedia")) {
@@ -351,7 +514,7 @@ public class RestaurantDriver {
         }
         Pesanan pesananBaru = new Pesanan(system.getNextPesananId(), mejaPilihan);
         while (true) {
-            system.lihatMenu();
+            system.lihatMenu(); 
             System.out.print("Masukkan ID Menu (atau 'selesai' untuk berhenti): ");
             String inputMenu = scanner.nextLine();
             if (inputMenu.equalsIgnoreCase("selesai")) {
@@ -382,13 +545,12 @@ public class RestaurantDriver {
         if (pesananBaru.getDaftarItem().isEmpty()) {
             System.out.println("Pesanan dibatalkan (tidak ada item).");
         } else {
-            system.tambahPesanan(pesananBaru);
-            mejaPilihan.setStatus("Ditempati");
-            System.out.println("Pesanan baru (ID: " + pesananBaru.getIdPesanan() + ") untuk Meja "
-                    + mejaPilihan.getNomor() + " berhasil dibuat.");
+            system.tambahPesanan(pesananBaru); 
+            mejaPilihan.setStatus("Ditempati"); 
+            System.out.println("Pesanan baru (ID: " + pesananBaru.getIdPesanan() + ") untuk Meja " + mejaPilihan.getNomor() + " berhasil dibuat.");
         }
     }
-
+    
     private static void lihatSemuaPesanan() {
         System.out.println("\n--- Status Semua Pesanan ---");
         List<Pesanan> daftarPesanan = system.getDaftarPesanan();
@@ -396,43 +558,41 @@ public class RestaurantDriver {
             System.out.println("Belum ada pesanan.");
             return;
         }
-        System.out.printf("%-5s | %-7s | %-17s | %-20s | %-5s | %-15s | %-12s\n",
-                "ID", "Meja", "Status", "Pesanan", "Jml", "Catatan", "Total");
-        System.out.println(
-                "------------------------------------------------------------------------------------------------");
+        System.out.printf("%-5s | %-7s | %-17s | %-20s | %-5s | %-15s | %-12s\n", 
+            "ID", "Meja", "Status", "Pesanan", "Jml", "Catatan", "Total");
+        System.out.println("------------------------------------------------------------------------------------------------");
         for (Pesanan p : daftarPesanan) {
-            boolean isFirstItem = true;
+            boolean isFirstItem = true; 
             if (p.getDaftarItem().isEmpty()) {
                 System.out.printf("%-5d | %-7d | %-17s | %-20s | %-5s | %-15s | Rp%-10.2f\n",
-                        p.getIdPesanan(), p.getMeja().getNomor(), p.getStatus(),
-                        "(Tidak ada item)", 0, "-", p.getTotalHarga());
+                    p.getIdPesanan(), p.getMeja().getNomor(), p.getStatus(),
+                    "(Tidak ada item)", 0, "-", p.getTotalHarga());
             } else {
                 for (DetailPesanan d : p.getDaftarItem()) {
                     String catatan = (d.getCatatan() == null || d.getCatatan().isEmpty()) ? "-" : d.getCatatan();
                     if (isFirstItem) {
                         System.out.printf("%-5d | %-7d | %-17s | %-20s | %-5d | %-15s | Rp%-10.2f\n",
                                 p.getIdPesanan(), p.getMeja().getNomor(), p.getStatus(),
-                                d.getItem().getNama(), d.getJumlah(), catatan, p.getTotalHarga());
-                        isFirstItem = false;
+                                d.getItem().getNama(), d.getJumlah(), catatan, p.getTotalHarga()); 
+                        isFirstItem = false; 
                     } else {
                         System.out.printf("%-5s | %-7s | %-17s | %-20s | %-5d | %-15s | %-12s\n",
-                                "", "", "",
-                                d.getItem().getNama(), d.getJumlah(), catatan, "");
+                                "", "", "", 
+                                d.getItem().getNama(), d.getJumlah(), catatan, ""); 
                     }
                 }
             }
-            System.out.println(
-                    "------------------------------------------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------------------");
         }
     }
-
+    
     private static void prosesPembayaran() {
         System.out.println("\n--- Proses Pembayaran ---");
         System.out.print("Masukkan ID Pesanan yang akan dibayar (atau 'batal'): ");
         String inputBayar = scanner.nextLine();
         if (inputBayar.equalsIgnoreCase("batal")) {
             System.out.println("Aksi dibatalkan.");
-            return;
+            return; 
         }
         try {
             int idPesanan = Integer.parseInt(inputBayar);
@@ -446,8 +606,7 @@ public class RestaurantDriver {
                 return;
             }
             if (!pesanan.getStatus().equals("Selesai Dimasak")) {
-                System.out.println("Pesanan ini belum siap dibayar (Status: " + pesanan.getStatus()
-                        + "). Harap Koki selesaikan dulu.");
+                System.out.println("Pesanan ini belum siap dibayar (Status: " + pesanan.getStatus() + "). Harap Koki selesaikan dulu.");
                 return;
             }
             System.out.printf("Total tagihan untuk Pesanan %d (Meja %d) adalah: Rp%.2f\n",
@@ -460,44 +619,38 @@ public class RestaurantDriver {
             int pilihanMetode = getIntInput();
             Pembayaran metodeBayar = null;
             switch (pilihanMetode) {
-                case 1:
-                    metodeBayar = new CashPayment();
-                    break;
-                case 2:
-                    metodeBayar = new CardPayment();
-                    break;
-                case 3:
-                    metodeBayar = new QRISPayment();
-                    break;
+                case 1: metodeBayar = new CashPayment(); break;
+                case 2: metodeBayar = new CardPayment(); break;
+                case 3: metodeBayar = new QRISPayment(); break;
                 default:
                     System.out.println("Metode tidak valid. Pembayaran dibatalkan.");
                     return;
             }
             Transaksi trx = new Transaksi(system.getNextTransaksiId(), pesanan, metodeBayar);
-            trx.konfirmasi();
-            system.tambahTransaksi(trx);
-
-            String strukText = Struk.cetak(trx);
-            system.simpanStrukKeFile(strukText);
-
+            trx.konfirmasi(); 
+            system.tambahTransaksi(trx); 
+            
+            String strukText = Struk.cetak(trx); 
+            system.simpanStrukKeFile(strukText); 
+            
             pesanan.setStatus("Dibayar");
-            pesanan.getMeja().setStatus("Tersedia");
-            system.simpanSemuaDataPesanan();
+            pesanan.getMeja().setStatus("Tersedia"); 
+            system.simpanSemuaDataPesanan(); 
             System.out.println("Pembayaran berhasil. Meja " + pesanan.getMeja().getNomor() + " kini tersedia.");
         } catch (NumberFormatException e) {
             System.out.println("Input tidak valid. Harap masukkan ID berupa angka atau 'batal'.");
         }
     }
-
+    
     private static int getIntInput() {
         while (true) {
             try {
                 int input = scanner.nextInt();
-                scanner.nextLine();
+                scanner.nextLine(); 
                 return input;
             } catch (InputMismatchException e) {
                 System.out.println("Input tidak valid. Harap masukkan angka.");
-                scanner.nextLine();
+                scanner.nextLine(); 
                 System.out.print("Coba lagi: ");
             }
         }
