@@ -116,8 +116,7 @@ public class RestaurantDriver {
             System.out.println("\n--- Menu Pelayan: " + pelayan.getNama() + " ---");
             System.out.println("1. Buat Pesanan Baru");
             System.out.println("2. Lihat Status Semua Pesanan");
-            System.out.println("3. Perbarui Status Pesanan"); 
-            System.out.println("4. Logout");                  
+            System.out.println("3. Logout");                  
             System.out.print("Pilihan: ");
             int pilihan = getIntInput();
             switch (pilihan) {
@@ -128,9 +127,6 @@ public class RestaurantDriver {
                     lihatSemuaPesanan();
                     break;
                 case 3:
-                    updateStatusPesananByPegawai(pelayan);
-                    break;
-                case 4:
                     System.out.println("Logout...");
                     return; 
                 default:
@@ -282,7 +278,7 @@ public class RestaurantDriver {
                     buatPesananCustomer(customer);
                     break;
                 case 3:
-                    lihatPesananCustomer(customer);
+                    muatDataPesanan();
                     break;
                 case 4:
                     pembayaranByCustomer(customer);

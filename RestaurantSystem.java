@@ -139,7 +139,7 @@ public class RestaurantSystem {
         return null; 
     }
     
-    private void muatDataPesanan() {
+    public void muatDataPesanan() {
         File filePesanan = new File(PESANAN_FILE_PATH);
         File fileDetail = new File(DETAIL_FILE_PATH);
         int maxId = 0;
