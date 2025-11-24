@@ -4,8 +4,9 @@ public class Customer extends Akun {
         super(id, nama, password);
     }
 
-    public Pesanan buatPesanan() {
-        System.out.println("Customer " + getNama() + " membuat pesanan baru.");
-        return null; // Placeholder
+    public Pesanan buatPesanan(int idPesanan, Meja meja) {
+        System.out.println("Customer " + getNama() + " membuat pesanan baru untuk Meja " + (meja != null ? meja.getNomor() : "N/A") + ".");
+        Pesanan p = new Pesanan(idPesanan, meja, this);
+        return p;
     }
 }
