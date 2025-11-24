@@ -1,0 +1,200 @@
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 11:15:05
+ID Transaksi: 1
+Meja: 1
+------------------------------
+Item:
+- Kentang Goreng (3 x Rp18000)
+                  Rp54000
+------------------------------
+Total Harga:     Rp54000.00
+Metode Bayar: QRIS
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 11:53:29
+ID Transaksi: 1
+Meja: 1
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+- Roti Bawang (1 x Rp15000)
+                  Rp15000
+------------------------------
+Total Harga:     Rp40000.00
+Metode Bayar: Card
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:03:27
+ID Transaksi: 1
+Meja: 1
+------------------------------
+Item:
+------------------------------
+Total Harga:     Rp0.00
+Metode Bayar: Card
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:04:46
+ID Transaksi: 2
+Meja: 2
+------------------------------
+Item:
+------------------------------
+Total Harga:     Rp0.00
+Metode Bayar: Cash
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:11:27
+ID Transaksi: 1
+Meja: 1
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+------------------------------
+Total Harga:     Rp25000.00
+Metode Bayar: Cash
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:35:42
+ID Transaksi: 1
+Meja: 4
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+------------------------------
+Total Harga:     Rp25000.00
+Metode Bayar: Cash
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:36:05
+ID Transaksi: 2
+Meja: 1
+------------------------------
+Item:
+------------------------------
+Total Harga:     Rp0.00
+Metode Bayar: Card
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:41:21
+ID Transaksi: 1
+Meja: 3
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+- Mie Ayam (3 x Rp20000)
+                  Rp60000
+------------------------------
+Total Harga:     Rp85000.00
+Metode Bayar: Cash
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 24-11-2025 12:46:00
+ID Transaksi: 1
+Meja: 10
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+- Ayam Bakar (3 x Rp35000)
+                  Rp105000
+- Es Teh (4 x Rp5000)
+                  Rp20000
+------------------------------
+Total Harga:     Rp150000.00
+Metode Bayar: QRIS
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
