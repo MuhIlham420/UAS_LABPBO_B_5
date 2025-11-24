@@ -6,10 +6,20 @@ public class Pesanan {
     private String status;
     private List<DetailPesanan> daftarItem;
     private Meja meja;
+    private Customer customer;
 
     public Pesanan(int idPesanan, Meja meja) {
         this.idPesanan = idPesanan;
         this.meja = meja;
+        this.status = "Dipesan";
+        this.daftarItem = new ArrayList<>();
+        this.customer = null;
+    }
+
+    public Pesanan(int idPesanan, Meja meja, Customer customer) {
+        this.idPesanan = idPesanan;
+        this.meja = meja;
+        this.customer = customer;
         this.status = "Dipesan";
         this.daftarItem = new ArrayList<>();
     }
@@ -53,5 +63,13 @@ public class Pesanan {
             total += detail.getSubtotal();
         }
         return total;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
