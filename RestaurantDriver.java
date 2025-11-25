@@ -1,3 +1,10 @@
+/**
+ * Kelas utama yang menjalankan sistem restoran.
+ * Menyediakan antarmuka pengguna untuk login, pembuatan akun, dan berbagai fungsi berdasarkan peran.
+ * 
+ * @author Kelompok 5 - UAS LAB PBO B
+ * @version 1.0
+ */
 // RestaurantDriver.java
 import java.util.InputMismatchException;
 import java.util.List;
@@ -8,6 +15,12 @@ public class RestaurantDriver {
     private static Scanner scanner = new Scanner(System.in);
     private static Akun loggedInUser = null;
 
+    /**
+     * Mencetak teks dalam bentuk box dengan border.
+     * 
+     * @param text  Teks yang akan ditampilkan dalam box
+     * @param width Lebar box yang diinginkan
+     */
     private static void printBoxed(String text, int width) {
         String horizontalLine = "";
         for (int i = 0; i < width; i++) {
@@ -32,6 +45,11 @@ public class RestaurantDriver {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Method utama yang menjalankan aplikasi restoran.
+     * 
+     * @param args Argumen command line (tidak digunakan)
+     */
     public static void main(String[] args) {
         printBoxed("Selamat Datang di Restoran Five", 60);
 
@@ -58,6 +76,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menampilkan menu utama untuk pengguna yang belum login.
+     */
     private static void showMenuUtama() {
         System.out.println("\n--- MENU UTAMA ---");
         System.out.println("1. Login");
@@ -77,6 +98,9 @@ public class RestaurantDriver {
         }
     }
 
+    /**
+     * Menangani proses login pengguna.
+     */
     private static void handleLogin() {
         System.out.println("\n--- SILAKAN LOGIN ---");
         System.out.print("Nama Pengguna: ");
@@ -92,6 +116,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menangani pembuatan akun customer baru.
+     */
     private static void handleBuatAkunCustomer() {
         System.out.println("\n--- BUAT AKUN CUSTOMER ---");
         System.out.print("Masukkan Nama: ");
@@ -111,6 +138,11 @@ public class RestaurantDriver {
         System.out.println("Silakan login untuk melanjutkan.");
     }
 
+    /**
+     * Menampilkan menu untuk peran Pelayan.
+     * 
+     * @param pelayan Objek Pegawai dengan peran Pelayan
+     */
     private static void showMenuPelayan(Pegawai pelayan) {
         while (true) {
             System.out.println("\n--- Menu Pelayan: " + pelayan.getNama() + " ---");
@@ -135,6 +167,11 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menampilkan menu untuk peran Koki.
+     * 
+     * @param koki Objek Pegawai dengan peran Koki
+     */
     private static void showMenuKoki(Pegawai koki) {
          while (true) {
             System.out.println("\n--- Menu Koki: " + koki.getNama() + " ---");
@@ -184,6 +221,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menampilkan daftar pesanan yang perlu dimasak oleh Koki.
+     */
     private static void tampilkanDaftarPesananKoki() {
         System.out.println("\n--- Pesanan Perlu Dimasak (Status: Dipesan) ---");
         List<Pesanan> pesananDipesan = system.getPesananByStatus("Dipesan");
@@ -214,6 +254,11 @@ public class RestaurantDriver {
         }
     }
 
+    /**
+     * Menampilkan menu untuk peran Kasir.
+     * 
+     * @param kasir Objek Pegawai dengan peran Kasir
+     */
      private static void showMenuKasir(Pegawai kasir) {
         while (true) {
             System.out.println("\n--- Menu Kasir: " + kasir.getNama() + " ---");
@@ -243,6 +288,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menampilkan daftar pesanan yang siap untuk dibayar.
+     */
     private static void tampilkanDaftarSiapBayar() {
         System.out.println("\n--- Pesanan Siap Bayar (Selesai Dimasak) ---");
         List<Pesanan> pesananSiapBayar = system.getPesananByStatus("Selesai Dimasak");
@@ -259,6 +307,11 @@ public class RestaurantDriver {
         }
     }
 
+    /**
+     * Menampilkan menu untuk Customer.
+     * 
+     * @param customer Objek Customer yang sedang login
+     */
     private static void showMenuCustomer(Customer customer) {
         while (true) {
             System.out.println("\n--- Menu Customer: " + customer.getNama() + " ---");
@@ -288,6 +341,11 @@ public class RestaurantDriver {
         }
     }
 
+    /**
+     * Membuat pesanan baru untuk customer.
+     * 
+     * @param customer Customer yang membuat pesanan
+     */
     private static void buatPesananCustomer(Customer customer) {
         System.out.println("\n--- Buat Pesanan (Customer) ---");
 
@@ -360,6 +418,11 @@ public class RestaurantDriver {
         System.out.println("Silakan tunggu pesanan selesai dimasak.");
     }
 
+    /**
+     * Menampilkan daftar pesanan milik customer.
+     * 
+     * @param customer Customer yang ingin melihat pesanannya
+     */
     private static void lihatPesananCustomer(Customer customer) {
         System.out.println("\n--- Pesanan Anda ---");
 
@@ -383,6 +446,9 @@ public class RestaurantDriver {
         }
     }
 
+    /**
+     * Membuat pesanan baru oleh pelayan.
+     */
     private static void buatPesananBaru() {
         System.out.println("\n--- Membuat Pesanan Baru ---");
         System.out.println("Daftar Meja Tersedia:"); 
@@ -443,6 +509,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Menampilkan semua pesanan dalam sistem.
+     */
     private static void lihatSemuaPesanan() {
         System.out.println("\n--- Status Semua Pesanan ---");
         List<Pesanan> daftarPesanan = system.getDaftarPesanan();
@@ -478,6 +547,9 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Memproses pembayaran untuk pesanan.
+     */
     private static void prosesPembayaran() {
         System.out.println("\n--- Proses Pembayaran ---");
         System.out.print("Masukkan ID Pesanan yang akan dibayar (atau 'batal'): ");
@@ -534,6 +606,11 @@ public class RestaurantDriver {
         }
     }
     
+    /**
+     * Mendapatkan input integer dari pengguna dengan penanganan error.
+     * 
+     * @return Integer yang dimasukkan pengguna
+     */
     private static int getIntInput() {
         while (true) {
             try {
