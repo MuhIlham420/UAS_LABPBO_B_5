@@ -93,8 +93,8 @@ public class RestaurantGUI extends JFrame {
         btnKoki = buildNavButton("Daftar Pesanan");
         btnKasir = buildNavButton("Pembayaran");
         btnTables = buildNavButton("Info Meja");
-        btnAuth = buildNavButton("Register/Login");
-        btnRefresh = buildNavButton("Refresh Data");
+        btnAuth = buildNavButton("Daftar/Masuk");
+        btnRefresh = buildNavButton("Segarkan Data");
         btnLogout = buildNavButton("Logout");
         btnLogout.addActionListener(e -> onLogout());
 
