@@ -187,7 +187,7 @@ public class RestaurantDriver {
                     break;
                 case 2:
                     tampilkanDaftarPesananKoki();
-                    if (system.getPesananByStatus("Dipesan").isEmpty()) {
+                    if (system.getPesananByStatuses("Dipesan").isEmpty()) {
                         break; 
                     }
                     System.out.print("\nMasukkan ID Pesanan yang selesai (atau 'batal'): ");
@@ -226,7 +226,7 @@ public class RestaurantDriver {
      */
     private static void tampilkanDaftarPesananKoki() {
         System.out.println("\n--- Pesanan Perlu Dimasak (Status: Dipesan) ---");
-        List<Pesanan> pesananDipesan = system.getPesananByStatus("Dipesan");
+        List<Pesanan> pesananDipesan = system.getPesananByStatuses("Dipesan");
         
         if (pesananDipesan.isEmpty()) {
             System.out.println("Tidak ada pesanan yang perlu dimasak.");
@@ -271,7 +271,7 @@ public class RestaurantDriver {
             switch (pilihan) {
                 case 1:
                     tampilkanDaftarSiapBayar();
-                    if (system.getPesananByStatus("Selesai Dimasak").isEmpty()) {
+                    if (system.getPesananByStatuses("Selesai Dimasak").isEmpty()) {
                         break; 
                     }
                     prosesPembayaran(); 
