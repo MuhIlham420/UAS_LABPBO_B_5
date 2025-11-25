@@ -208,7 +208,7 @@ public class RestaurantGUI extends JFrame {
 
         JTextField tfName = new JTextField();
         JPasswordField pf = new JPasswordField();
-        JButton btnReg = new JButton("Register");
+        JButton btnReg = new JButton("Daftar");
         JButton btnLogin = new JButton("Login");
 
         c.gridx = 0;
