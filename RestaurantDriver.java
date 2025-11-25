@@ -293,7 +293,7 @@ public class RestaurantDriver {
      */
     private static void tampilkanDaftarSiapBayar() {
         System.out.println("\n--- Pesanan Siap Bayar (Selesai Dimasak) ---");
-        List<Pesanan> pesananSiapBayar = system.getPesananByStatus("Selesai Dimasak");
+        List<Pesanan> pesananSiapBayar = system.getPesananByStatuses("Selesai Dimasak");
         if (pesananSiapBayar.isEmpty()) {
             System.out.println("Tidak ada pesanan yang siap dibayar.");
         } else {
