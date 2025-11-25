@@ -28,7 +28,7 @@ Setiap pengguna harus login terlebih dahulu. Role menentukan fitur yang muncul:
 | **Pelayan** | Menu, tambah pesanan |
 | **Koki** | Melihat pesanan masuk, update status |
 | **Kasir** | Pembayaran, struk, riwayat |
-| **Customer** | Melihat menu |
+| **Customer** | Melihat menu, membuat pesanan, melihat status pesanan |
 
 ---
 
