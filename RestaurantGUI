@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * Kelas utama untuk Graphical User Interface (GUI) sistem restoran.
  * Menangani tampilan dan interaksi pengguna untuk seluruh sistem restoran.
  * 
- * @author Restaurant FIVE Team
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  * @since 2024
  */
