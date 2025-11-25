@@ -2,7 +2,7 @@
  * Kelas yang merepresentasikan menu minuman.
  * Menyimpan informasi khusus minuman seperti ukuran, suhu, dan kategori.
  * 
- * @author [Nama Anda]
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  */
 public class Minuman extends MenuItem {

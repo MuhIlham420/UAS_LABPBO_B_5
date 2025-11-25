@@ -2,7 +2,7 @@
  * Kelas yang merepresentasikan akun Pegawai dalam sistem.
  * Pegawai dapat memiliki peran berbeda dan dapat mengupdate status pesanan.
  * 
- * @author [Nama Anda]
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  */
 public class Pegawai extends Akun {

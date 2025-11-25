@@ -1,7 +1,22 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Kelas utilitas untuk mencetak struk pembayaran.
+ * Menyediakan method untuk menghasilkan struk dalam format yang rapi.
+ * 
+ * @author Kelompok 5 - UAS LAB PBO B
+ * @version 1.0
+ */
 public class Struk {
+    
+    /**
+     * Mencetak struk pembayaran untuk transaksi tertentu.
+     * Struk akan menampilkan informasi transaksi, item pesanan, dan total harga.
+     * 
+     * @param transaksi Objek Transaksi yang akan dicetak struknya
+     * @return String berisi struk pembayaran yang telah diformat
+     */
     public static String cetak(Transaksi transaksi) {
         StringBuilder sb = new StringBuilder();
         

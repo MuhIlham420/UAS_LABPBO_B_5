@@ -2,7 +2,7 @@
  * Kelas abstrak yang merepresentasikan item menu.
  * Menyediakan atribut dasar dan metode untuk semua jenis menu.
  * 
- * @author [Nama Anda]
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  */
 public abstract class MenuItem {

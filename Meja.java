@@ -2,7 +2,7 @@
  * Kelas yang merepresentasikan meja di restoran.
  * Menyimpan informasi nomor meja dan status ketersediaannya.
  * 
- * @author [Nama Anda]
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  */
 public class Meja {

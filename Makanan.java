@@ -2,7 +2,7 @@
  * Kelas yang merepresentasikan menu makanan.
  * Menyimpan informasi khusus makanan seperti tingkat pedas dan kategori.
  * 
- * @author [Nama Anda]
+ * @author Kelompok 5 - UAS LAB PBO B
  * @version 1.0
  */
 public class Makanan extends MenuItem {
