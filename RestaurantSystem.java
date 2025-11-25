@@ -148,17 +148,37 @@ public class RestaurantSystem {
                 String line = fileScanner.nextLine();
                 if (line.isEmpty()) continue;
                 String[] parts = line.split("\\" + DELIMITER); 
-                if (parts.length == 3) {
-                    int idPesanan = Integer.parseInt(parts[0]);
-                    int idMeja = Integer.parseInt(parts[1]);
-                    String status = parts[2];
-                    Meja meja = findMejaByNomor(idMeja);
-                    if (meja != null) {
-                        Pesanan p = new Pesanan(idPesanan, meja);
-                        p.setStatus(status);
-                        meja.setStatus("Ditempati"); 
-                        this.daftarPesanan.add(p);
-                        if (idPesanan > maxId) maxId = idPesanan; 
+                if (parts.length >= 3) {
+                    try {
+                        int idPesanan = Integer.parseInt(parts[0].trim());
+                        int idMeja = Integer.parseInt(parts[1].trim());
+                        int idCustomer = 0;
+                        String status;
+                        
+                        if (parts.length >= 4) {
+                            idCustomer = Integer.parseInt(parts[2].trim());
+                            status = parts[3].trim();
+                        } else {
+                            status = parts[2].trim();
+                        }
+                        
+                        Meja meja = findMejaByNomor(idMeja);
+                        if (meja != null) {
+                            Customer customer = (idCustomer > 0) ? findCustomerById(idCustomer) : null;
+                            Pesanan p;
+                            if (customer != null) {
+                                p = new Pesanan(idPesanan, meja, customer);
+                            } else {
+                                p = new Pesanan(idPesanan, meja);
+                            }
+                            p.setStatus(status);
+                            if (!"Dibayar".equals(status)) {
+                                meja.setStatus("Ditempati"); 
+                            }
+                            this.daftarPesanan.add(p);
+                            if (idPesanan > maxId) maxId = idPesanan; 
+                        }
+                    } catch (NumberFormatException nfe) {
                     }
                 }
             }

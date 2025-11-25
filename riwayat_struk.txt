@@ -1,0 +1,69 @@
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 25-11-2025 06:43:47
+ID Transaksi: 1
+Meja: 2
+------------------------------
+Item:
+- Nasi Goreng (2 x Rp25000)
+                  Rp50000
+  Catatan: rawr
+------------------------------
+Total Harga:     Rp50000.00
+Metode Bayar: QRIS
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 25-11-2025 06:47:51
+ID Transaksi: 2
+Meja: 4
+------------------------------
+Item:
+- Jus Alpukat (12 x Rp15000)
+                  Rp180000
+  Catatan: mangan
+------------------------------
+Total Harga:     Rp180000.00
+Metode Bayar: Card
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+
+
+===== STRUK PEMBAYARAN =====
+         Restoran Five
+       Jl. Unsyiah No. 123
+==============================
+Waktu: 25-11-2025 06:48:32
+ID Transaksi: 3
+Meja: 3
+------------------------------
+Item:
+- Nasi Goreng (1 x Rp25000)
+                  Rp25000
+  Catatan: rawr
+------------------------------
+Total Harga:     Rp25000.00
+Metode Bayar: Cash
+
+===== TERIMA KASIH =====
+    Selamat Menikmati!
+
+
+==============================================
+

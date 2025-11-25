@@ -265,8 +265,7 @@ public class RestaurantDriver {
             System.out.println("1. Lihat Menu Restoran");
             System.out.println("2. Buat Pesanan");
             System.out.println("3. Lihat Status Pesanan Saya");
-            System.out.println("4. Bayar Pesanan");
-            System.out.println("5. Logout");
+            System.out.println("4. Logout");
             System.out.print("Pilihan: ");
 
             int pilihan = getIntInput();
@@ -278,12 +277,9 @@ public class RestaurantDriver {
                     buatPesananCustomer(customer);
                     break;
                 case 3:
-                    muatDataPesanan();
+                    lihatPesananCustomer(customer);
                     break;
                 case 4:
-                    pembayaranByCustomer(customer);
-                    break;
-                case 5:
                     System.out.println("Logout...");
                     return;
                 default:
@@ -384,106 +380,6 @@ public class RestaurantDriver {
                                    + " (Catatan: " + d.getCatatan() + ")");
             }
             System.out.printf("Total: Rp%.2f\n", p.getTotalHarga());
-        }
-    }
-
-    private static void pembayaranByCustomer(Customer customer) {
-        System.out.println("\n--- Pembayaran Pesanan Anda ---");
-
-        List<Pesanan> list = system.getPesananByCustomer(customer);
-
-        boolean adaUntukBayar = false;
-        for (Pesanan p : list) {
-            if (p.getStatus().equals("Selesai Dimasak")) {
-                adaUntukBayar = true;
-                System.out.printf("- ID %d | Total Rp%.2f\n", p.getIdPesanan(), p.getTotalHarga());
-            }
-        }
-
-        if (!adaUntukBayar) {
-            System.out.println("Tidak ada pesanan yang siap dibayar.");
-            return;
-        }
-
-        System.out.print("Masukkan ID pesanan yang ingin dibayar: ");
-        int id = getIntInput();
-
-        Pesanan pesanan = system.findPesananById(id);
-
-        if (pesanan == null || pesanan.getCustomer() == null || pesanan.getCustomer().getId() != customer.getId()) {
-            System.out.println("ID tidak valid.");
-            return;
-        }
-
-        if (!pesanan.getStatus().equals("Selesai Dimasak")) {
-            System.out.println("Pesanan belum siap dibayar.");
-            return;
-        }
-
-        System.out.println("Pilih metode pembayaran:");
-        System.out.println("1. Cash");
-        System.out.println("2. Card");
-        System.out.println("3. QRIS");
-        System.out.print("Pilihan: ");
-        int pilihanMetode = getIntInput();
-        Pembayaran metodeBayar = null;
-        switch (pilihanMetode) {
-            case 1: metodeBayar = new CashPayment(); break;
-            case 2: metodeBayar = new CardPayment(); break;
-            case 3: metodeBayar = new QRISPayment(); break;
-            default:
-                System.out.println("Metode tidak valid. Pembayaran dibatalkan.");
-                return;
-        }
-        Transaksi trx = new Transaksi(system.getNextTransaksiId(), pesanan, metodeBayar);
-        trx.konfirmasi();
-        system.tambahTransaksi(trx);
-        
-        system.bayarPesananCustomer(customer, pesanan.getIdPesanan());
-
-        String strukText = Struk.cetak(trx);
-        system.simpanStrukKeFile(strukText);
-
-        System.out.println("Pembayaran berhasil! Terima kasih.");
-    }
-
-    private static void updateStatusPesananByPegawai(Pegawai pegawai) {
-        System.out.println("\n--- Perbarui Status Pesanan (Pegawai) ---");
-        lihatSemuaPesanan();
-        if (system.getDaftarPesanan().isEmpty()) {
-            return; 
-        }
-        System.out.print("\nMasukkan ID Pesanan yang ingin diubah (atau 'batal' untuk kembali): ");
-        String input = scanner.nextLine();
-        
-        if (input.equalsIgnoreCase("batal")) {
-            System.out.println("Aksi dibatalkan.");
-            return; 
-        }
-        
-        try {
-            int idPesanan = Integer.parseInt(input);
-            Pesanan pesanan = system.findPesananById(idPesanan);
-            if (pesanan == null) {
-                System.out.println("Pesanan tidak ditemukan.");
-                return;
-            }
-            System.out.println("Status pesanan saat ini: " + pesanan.getStatus());
-            System.out.print("Masukkan status baru (atau 'batal' untuk membatalkan): ");
-            String statusBaru = scanner.nextLine();
-            
-            if (statusBaru.equalsIgnoreCase("batal")) {
-                System.out.println("Aksi dibatalkan.");
-                return;
-            }
-            if (statusBaru.isEmpty()) {
-                System.out.println("Status tidak boleh kosong. Aksi dibatalkan.");
-                return;
-            }
-            pegawai.updateStatusPesanan(pesanan, statusBaru); 
-            system.simpanSemuaDataPesanan(); 
-        } catch (NumberFormatException e) {
-            System.out.println("Input tidak valid. Harap masukkan ID berupa angka atau 'batal'.");
         }
     }
 
