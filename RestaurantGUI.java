@@ -5,14 +5,6 @@ import java.awt.event.*;
 import java.util.*;
 import java.lang.reflect.Method;
 
-/**
- * Kelas utama untuk Graphical User Interface (GUI) sistem restoran.
- * Menangani tampilan dan interaksi pengguna untuk seluruh sistem restoran.
- * 
- * @author Kelompok 5 - UAS LAB PBO B
- * @version 1.0
- * @since 2024
- */
 public class RestaurantGUI extends JFrame {
     private RestaurantSystem restaurant;
     private JPanel cardPanel;
@@ -43,11 +35,6 @@ public class RestaurantGUI extends JFrame {
     private DefaultListModel<String> tablesListModel;
     private JList<String> tablesJList;
 
-    /**
-     * Konstruktor utama untuk GUI Restaurant.
-     * 
-     * @param restaurant Sistem restoran yang akan dihubungkan dengan GUI
-     */
     public RestaurantGUI(RestaurantSystem restaurant) {
         this.restaurant = restaurant;
         try {
@@ -67,9 +54,6 @@ public class RestaurantGUI extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Menginisialisasi komponen-komponen GUI awal (panel autentikasi).
-     */
     private void initComponents() {
         JPanel authWrapper = new JPanel(new GridBagLayout());
         authWrapper.setBackground(new Color(250, 250, 250));
@@ -88,10 +72,6 @@ public class RestaurantGUI extends JFrame {
         setContentPane(authWrapper);
     }
 
-    /**
-     * Membangun antarmuka utama setelah login berhasil.
-     * Menyusun sidebar dan panel-card untuk navigasi.
-     */
     private void buildMainUI() {
         JPanel root = new JPanel(new BorderLayout());
         root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -203,12 +183,6 @@ public class RestaurantGUI extends JFrame {
         updateAuthState();
     }
 
-    /**
-     * Membuat tombol navigasi dengan style yang konsisten.
-     * 
-     * @param text Teks yang ditampilkan pada tombol
-     * @return Tombol JButton yang telah dikonfigurasi
-     */
     private JButton buildNavButton(String text) {
         JButton b = new JButton(text);
         b.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
@@ -217,11 +191,6 @@ public class RestaurantGUI extends JFrame {
         return b;
     }
 
-    /**
-     * Membangun panel dashboard utama.
-     * 
-     * @return Panel dashboard yang berisi welcome message
-     */
     private JPanel buildDashboardPanel() {
         JPanel p = new JPanel(new BorderLayout());
         dashboardHeaderLabel = new JLabel(
@@ -231,11 +200,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    /**
-     * Membangun panel autentikasi untuk login dan registrasi.
-     * 
-     * @return Panel yang berisi form login dan registrasi
-     */
     private JPanel buildAuthPanel() {
         JPanel p = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -244,7 +208,7 @@ public class RestaurantGUI extends JFrame {
 
         JTextField tfName = new JTextField();
         JPasswordField pf = new JPasswordField();
-        JButton btnReg = new JButton("Daftar");
+        JButton btnReg = new JButton("Register");
         JButton btnLogin = new JButton("Login");
 
         c.gridx = 0;
@@ -303,11 +267,6 @@ public class RestaurantGUI extends JFrame {
     private DefaultTableModel minumanTableModel;
     private JScrollPane minumanScroll;
 
-    /**
-     * Membangun panel untuk menampilkan daftar menu makanan dan minuman.
-     * 
-     * @return Panel menu dengan tab untuk makanan dan minuman
-     */
     private JPanel buildMenuPanel() {
         JPanel p = new JPanel(new BorderLayout(10, 10));
         JLabel lbl = new JLabel("Daftar Menu", SwingConstants.LEFT);
@@ -342,9 +301,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    /**
-     * Memperbarui tabel menu dengan data terbaru dari sistem.
-     */
     private void refreshMenuTable() {
         if (makananTableModel == null || minumanTableModel == null)
             return;
@@ -371,9 +327,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Membuka panel pemesanan dengan item yang dipilih dari menu.
-     */
     private void openOrderFromSelected() {
         if (currentUser == null) {
             JOptionPane.showMessageDialog(this, "Silakan login terlebih dahulu untuk membuat pesanan.", "Perlu Login",
@@ -411,12 +364,7 @@ public class RestaurantGUI extends JFrame {
         showCard("pemesanan");
     }
 
-    /**
-     * Membuat pesanan baru dan memproses pembayaran.
-     * 
-     * @param meja Meja yang digunakan untuk pesanan
-     * @param daftarDetail Daftar item yang dipesan
-     */
+
     private void createOrderAndProcessPayment(Meja meja, java.util.List<DetailPesanan> daftarDetail) {
         if (meja == null || daftarDetail == null || daftarDetail.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Meja atau item tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -469,11 +417,6 @@ public class RestaurantGUI extends JFrame {
         refreshTablesPanel();
     }
 
-    /**
-     * Membangun panel untuk proses pemesanan oleh pelayan.
-     * 
-     * @return Panel pemesanan dengan form input pesanan
-     */
     private JPanel buildPemesananPanel() {
         JPanel p = new JPanel(new BorderLayout(8, 8));
         JLabel h = new JLabel("Pemesanan - Buat Pesanan", SwingConstants.LEFT);
@@ -507,7 +450,7 @@ public class RestaurantGUI extends JFrame {
             spQtyGlobal = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         if (tfCatatanGlobal == null)
             tfCatatanGlobal = new JTextField();
-        JButton btnAddItem = new JButton("Tambah Item ke Pesanan Sementara");
+        JButton btnAddItem = new JButton("Tambah Item ke keranjang pesanan");
         JButton btnSendOrder = new JButton("Kirim Pesanan ke Dapur");
 
         c.gridx = 0;
@@ -559,7 +502,7 @@ public class RestaurantGUI extends JFrame {
 
         btnSendOrder.addActionListener(e -> {
             if (currentOrderModel.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Belum ada item di pesanan sementara");
+                JOptionPane.showMessageDialog(this, "Belum ada item di keranjang pesanan");
                 return;
             }
             if (cbMejaGlobal.getSelectedIndex() < 0) {
@@ -594,11 +537,17 @@ public class RestaurantGUI extends JFrame {
                     }
                     MenuItem item = restaurant.findMenuItemById(menuId);
                     if (item != null)
+
                         daftarDetail.add(new DetailPesanan(item, qty, cat));
                 } catch (Exception ex) {}
             }
             Pesanan pes = restaurant.buatPesanan(meja, daftarDetail);
             if (pes != null) {
+                if (currentUser instanceof Customer) {
+                    pes.setCustomer((Customer) currentUser);
+                    restaurant.simpanSemuaDataPesanan(); 
+                }
+                
                 JOptionPane.showMessageDialog(this, "Pesanan dikirim. ID: " + pes.getIdPesanan());
                 currentOrderModel.clear();
                 refreshKokiTable();
@@ -628,14 +577,9 @@ public class RestaurantGUI extends JFrame {
     private JTable kokiTable;
     private DefaultTableModel kokiModel;
 
-    /**
-     * Membangun panel untuk koki melihat dan mengelola daftar pesanan.
-     * 
-     * @return Panel koki dengan tabel pesanan dan kontrol status
-     */
     private JPanel buildKokiPanel() {
         JPanel p = new JPanel(new BorderLayout(8, 8));
-        JLabel h = new JLabel("Daftar Pesanan", SwingConstants.LEFT);
+        JLabel h = new JLabel("Daftar Pesanan - Per Meja", SwingConstants.LEFT);
         h.setFont(h.getFont().deriveFont(Font.BOLD, 16f));
         p.add(h, BorderLayout.NORTH);
 
@@ -689,9 +633,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    /**
-     * Memperbarui tabel pesanan untuk koki dengan data terbaru.
-     */
     private void refreshKokiTable() {
         if (kokiModel == null)
             return;
@@ -710,11 +651,6 @@ public class RestaurantGUI extends JFrame {
     private JTable historyTable;
     private DefaultTableModel historyModel;
 
-    /**
-     * Membangun panel untuk kasir memproses pembayaran dan melihat riwayat.
-     * 
-     * @return Panel kasir dengan tab pembayaran dan riwayat transaksi
-     */
     private JPanel buildKasirPanel() {
         JPanel p = new JPanel(new BorderLayout(8, 8));
         JLabel h = new JLabel("Pembayaran - Proses Pembayaran & Riwayat", SwingConstants.LEFT);
@@ -938,15 +874,12 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    /**
-     * Memperbarui tabel pembayaran untuk kasir dengan pesanan yang siap dibayar.
-     */
     private void refreshKasirTable() {
         if (kasirModel == null)
             return;
         kasirModel.setRowCount(0);
         try {
-            java.util.List<Pesanan> list = restaurant.getPesananByStatus(RestaurantSystem.STATUS_SELESAI);
+            java.util.List<Pesanan> list = restaurant.getPesananByStatuses(RestaurantSystem.STATUS_SELESAI);
             if (list == null)
                 return;
             for (Pesanan p : list) {
@@ -957,9 +890,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Memperbarui tabel riwayat transaksi dengan data terbaru.
-     */
     private void refreshHistoryTable() {
         if (historyModel == null)
             return;
@@ -1039,9 +969,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Memperbarui panel status meja dengan informasi terbaru.
-     */
     private void refreshTablesPanel() {
         if (tablesListModel == null) {
             tablesListModel = new DefaultListModel<>();
@@ -1060,11 +987,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Membangun panel untuk menampilkan status meja.
-     * 
-     * @return Panel status meja dengan daftar meja dan statusnya
-     */
     private JPanel buildTablesPanel() {
         if (tablesListModel == null)
             tablesListModel = new DefaultListModel<>();
@@ -1076,13 +998,6 @@ public class RestaurantGUI extends JFrame {
         return wrapper;
     }
 
-    /**
-     * Mencari komponen dalam card panel berdasarkan nama.
-     * 
-     * @param <T> Tipe komponen yang dicari
-     * @param name Nama komponen yang dicari
-     * @return Komponen yang ditemukan atau null jika tidak ada
-     */
     @SuppressWarnings("unchecked")
     private <T extends JComponent> T findComponentInCard(String name) {
         if ("cbMenu".equals(name) || "cbMenuGlobal".equals(name))
@@ -1092,9 +1007,6 @@ public class RestaurantGUI extends JFrame {
         return null;
     }
 
-    /**
-     * Memperbarui data untuk form pemesanan baru (meja dan menu).
-     */
     private void refreshNewOrderData() {
         if (cbMejaGlobal == null)
             cbMejaGlobal = new JComboBox<>();
@@ -1118,9 +1030,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Memperbarui semua data di GUI (menu, pesanan, meja, transaksi).
-     */
     private void refreshAll() {
         refreshMenuTable();
         refreshNewOrderData();
@@ -1139,11 +1048,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Menangani aksi setelah login berhasil.
-     * 
-     * @param a Akun yang berhasil login
-     */
     private void onLoginSuccess(Akun a) {
         this.currentUser = a;
         buildMainUI();
@@ -1157,9 +1061,6 @@ public class RestaurantGUI extends JFrame {
         showCard("dashboard");
     }
 
-    /**
-     * Menangani proses logout pengguna.
-     */
     private void onLogout() {
         this.currentUser = null;
         if (currentOrderModel != null)
@@ -1170,9 +1071,6 @@ public class RestaurantGUI extends JFrame {
         JOptionPane.showMessageDialog(this, "Anda telah logout.", "Logout", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /**
-     * Memperbarui state autentikasi dan menyesuaikan tampilan berdasarkan role.
-     */
     private void updateAuthState() {
         boolean loggedIn = (currentUser != null);
         if (btnLogout != null)
@@ -1205,11 +1103,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Mendapatkan role pengguna yang sedang login.
-     * 
-     * @return String role pengguna (pelayan, koki, kasir, customer, atau staff)
-     */
     private String getCurrentUserRole() {
         if (currentUser == null)
             return "";
@@ -1241,11 +1134,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    /**
-     * Menampilkan card tertentu dalam card layout.
-     * 
-     * @param name Nama card yang akan ditampilkan
-     */
     private void showCard(String name) {
         if (cardPanel == null || cardLayout == null)
             return;
