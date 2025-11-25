@@ -1,5 +1,5 @@
 # 🍽️ Sistem Manajemen Restoran Five — Java  
-Aplikasi manajemen restoran berbasis **Java OOP** dan **Swing GUI** dengan dukungan multi-role (Admin, Waiter, Koki, Kasir, Customer).  
+Aplikasi manajemen restoran berbasis **Java OOP** dan **Swing GUI** dengan dukungan multi-role (Admin, Pelayan, Koki, Kasir, Customer).  
 Dikembangkan sebagai **Tugas Akhir Praktikum PBO**.
 
 ---
