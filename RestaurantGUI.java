@@ -10,41 +10,33 @@ public class RestaurantGUI extends JFrame {
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
-    // current logged-in account (null = not logged in)
     private Akun currentUser;
     private JButton btnLogout;
     private JLabel dashboardHeaderLabel;
 
-    // navigation buttons promoted to fields so we can enable/disable based on login
-    // state
     private JButton btnDashboard;
     private JButton btnMenu;
     private JButton btnTables;
     private JButton btnAuth;
     private JButton btnRefresh;
-    // role-specific nav buttons
-    private JButton btnPelayan; // label will be "Pemesanan"
+    private JButton btnPelayan;
     private JButton btnKoki;
-    private JButton btnKasir; // label will be "Pembayaran"
-    // role-specific panels
+    private JButton btnKasir;
     private JPanel pemesananPanel;
     private JPanel kokiPanel;
     private JPanel kasirPanel;
 
-    // New Order panel components (reuse for Pemesanan)
     private JComboBox<String> cbMejaGlobal;
     private JComboBox<String> cbMenuGlobal;
     private JSpinner spQtyGlobal;
     private JTextField tfCatatanGlobal;
     private DefaultListModel<String> currentOrderModel;
 
-    // Tables panel (dibutuhkan oleh banyak panggilan refreshTablesPanel())
     private DefaultListModel<String> tablesListModel;
     private JList<String> tablesJList;
 
     public RestaurantGUI(RestaurantSystem restaurant) {
         this.restaurant = restaurant;
-        // modern LAF
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -53,7 +45,6 @@ public class RestaurantGUI extends JFrame {
                 }
             }
         } catch (Exception e) {
-            // ignore, fallback to default
         }
         setTitle("Restaurant FIVE - Sistem Pemesanan");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +55,6 @@ public class RestaurantGUI extends JFrame {
     }
 
     private void initComponents() {
-        // Initial screen only shows auth panel (modern centered card)
         JPanel authWrapper = new JPanel(new GridBagLayout());
         authWrapper.setBackground(new Color(250, 250, 250));
         JPanel card = new JPanel(new BorderLayout(10, 10));
@@ -80,15 +70,12 @@ public class RestaurantGUI extends JFrame {
         card.add(buildAuthPanel(), BorderLayout.CENTER);
         authWrapper.add(card);
         setContentPane(authWrapper);
-        // Note: main UI (sidebar+cards) will be created after login (buildMainUI)
     }
 
-    // build main UI after successful login
     private void buildMainUI() {
         JPanel root = new JPanel(new BorderLayout());
         root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Left sidebar (store buttons in fields)
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
         sidebar.setPreferredSize(new Dimension(200, 0));
@@ -100,21 +87,18 @@ public class RestaurantGUI extends JFrame {
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         sidebar.add(title);
 
-        // create nav buttons (kept as fields)
         btnDashboard = buildNavButton("Dashboard");
         btnMenu = buildNavButton("Lihat Menu");
-        btnPelayan = buildNavButton("Pemesanan"); // renamed
-        btnKoki = buildNavButton("Daftar Pesanan"); // renamed
-        btnKasir = buildNavButton("Pembayaran"); // rename for sidebar label
+        btnPelayan = buildNavButton("Pemesanan");
+        btnKoki = buildNavButton("Daftar Pesanan");
+        btnKasir = buildNavButton("Pembayaran");
         btnTables = buildNavButton("Info Meja");
         btnAuth = buildNavButton("Register/Login");
         btnRefresh = buildNavButton("Refresh Data");
         btnLogout = buildNavButton("Logout");
         btnLogout.addActionListener(e -> onLogout());
 
-        // Decide which controls to show based on current user's role
-        String role = getCurrentUserRole(); // already lower-cased inside method
-        // Common
+        String role = getCurrentUserRole();
         sidebar.add(btnDashboard);
         sidebar.add(btnMenu);
         sidebar.add(Box.createVerticalStrut(8));
@@ -127,9 +111,7 @@ public class RestaurantGUI extends JFrame {
         } else if ("kasir".equalsIgnoreCase(role)) {
             sidebar.add(btnKasir);
         } else if ("customer".equalsIgnoreCase(role)) {
-            // customer sees only menu (no role button)
         } else {
-            // default: staff/other - show all role buttons but disabled by updateAuthState
             sidebar.add(btnPelayan);
             sidebar.add(btnKoki);
             sidebar.add(btnKasir);
@@ -139,20 +121,15 @@ public class RestaurantGUI extends JFrame {
         sidebar.add(Box.createVerticalGlue());
         sidebar.add(btnLogout);
 
-        // Refresh button: only visible for staff (we will hide via updateAuthState if
-        // not staff)
         sidebar.add(btnRefresh);
 
-        // card panel contains only the panels relevant to this role + common panels
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         cardPanel.add(buildDashboardPanel(), "dashboard");
         cardPanel.add(buildMenuPanel(), "menu");
 
-        // Add only role-specific panels
         if ("pelayan".equalsIgnoreCase(role) || !"pelayan".equalsIgnoreCase(role) && !"koki".equalsIgnoreCase(role)
                 && !"kasir".equalsIgnoreCase(role) && !"customer".equalsIgnoreCase(role)) {
-            // If pelayan or default, add pemesanan/tables (neworder removed)
             pemesananPanel = buildPemesananPanel();
             cardPanel.add(pemesananPanel, "pemesanan");
             cardPanel.add(buildTablesPanel(), "tables");
@@ -168,10 +145,8 @@ public class RestaurantGUI extends JFrame {
             cardPanel.add(kasirPanel, "kasir");
         }
 
-        // Always include auth so user can navigate back if needed
         cardPanel.add(buildAuthPanel(), "auth");
 
-        // Wire navigation (handlers remain safe and check role where relevant)
         btnDashboard.addActionListener(e -> showCard("dashboard"));
         btnMenu.addActionListener(e -> {
             refreshMenuTable();
@@ -218,7 +193,6 @@ public class RestaurantGUI extends JFrame {
         revalidate();
         repaint();
 
-        // update visibility / enabled state according to role
         updateAuthState();
     }
 
@@ -239,7 +213,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    // Auth panel (register/login)
     private JPanel buildAuthPanel() {
         JPanel p = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -280,7 +253,6 @@ public class RestaurantGUI extends JFrame {
                 return;
             }
             Customer cst = restaurant.registerCustomer(name, pass);
-            // auto-login new customer and switch to main UI
             onLoginSuccess(cst);
             JOptionPane.showMessageDialog(this, "Registrasi sukses. Login sebagai: " + cst.getNama());
         });
@@ -300,7 +272,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    // Menu panel components (table)
     private JTabbedPane menuTabbed;
     private JTable makananTable;
     private DefaultTableModel makananTableModel;
@@ -362,10 +333,9 @@ public class RestaurantGUI extends JFrame {
                 if (k != null)
                     kategori = k.toString();
             } catch (Exception ex) {
-                /* ignore */ }
+              }
             Object[] row = new Object[] { m.getId(), m.getNama(), String.format("Rp %.0f", (double) m.getHarga()),
                     m.getClass().getSimpleName(), kategori };
-            // categorize into makanan / minuman
             if (m.getClass().getSimpleName().toLowerCase().contains("minum") || m instanceof Minuman) {
                 minumanTableModel.addRow(row);
             } else {
@@ -381,7 +351,6 @@ public class RestaurantGUI extends JFrame {
             showCard("auth");
             return;
         }
-        // determine active tab and selected row
         if (menuTabbed == null) {
             JOptionPane.showMessageDialog(this, "Daftar menu belum siap.", "Info", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -399,7 +368,6 @@ public class RestaurantGUI extends JFrame {
         }
         DefaultTableModel model = (DefaultTableModel) activeTable.getModel();
         int id = Integer.parseInt(model.getValueAt(sel, 0).toString());
-        // navigate to new order card and preselect item in combo
         refreshNewOrderData();
         javax.swing.JComboBox<String> cbMenu = findComponentInCard("cbMenu");
         if (cbMenu != null) {
@@ -415,7 +383,6 @@ public class RestaurantGUI extends JFrame {
 
     // ---------------- role-specific panels & helpers ----------------
 
-    // Buat pesanan lalu proses pembayaran (terpusat)
     private void createOrderAndProcessPayment(Meja meja, java.util.List<DetailPesanan> daftarDetail) {
         if (meja == null || daftarDetail == null || daftarDetail.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Meja atau item tidak valid.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -427,14 +394,12 @@ public class RestaurantGUI extends JFrame {
             return;
         }
 
-        // Pilih metode bayar
         String[] options = { "Cash", "Card", "QRIS", "Nanti (Hanya Pesan)" };
         int choice = JOptionPane.showOptionDialog(this,
                 "Pesanan dibuat (ID " + pes.getIdPesanan() + "). Pilih metode pembayaran:",
                 "Pembayaran", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         if (choice == 3 || choice == JOptionPane.CLOSED_OPTION) {
-            // Pembayaran ditunda; tetap biarkan pesanan di sistem (status MENUNGGU)
             JOptionPane.showMessageDialog(this,
                     "Pesanan dibuat dan dikirim ke dapur. Pembayaran bisa dilakukan di kasir nanti.");
             refreshKokiTable();
@@ -476,7 +441,6 @@ public class RestaurantGUI extends JFrame {
         h.setFont(h.getFont().deriveFont(Font.BOLD, 16f));
         p.add(h, BorderLayout.NORTH);
 
-        // Pemesanan menu table (local snapshot) - multi-select untuk cepat pesan
         String[] colsMenu = { "ID", "Nama", "Harga", "Tipe" };
         DefaultTableModel pelayanMenuModel = new DefaultTableModel(colsMenu, 0) {
             public boolean isCellEditable(int r, int c) {
@@ -492,12 +456,10 @@ public class RestaurantGUI extends JFrame {
         JScrollPane spMenu = new JScrollPane(pelayanMenuTable);
         spMenu.setPreferredSize(new Dimension(420, 0));
 
-        // Left: form + buttons; Right: menu + order list
         JPanel left = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(6, 6, 6, 6);
         c.fill = GridBagConstraints.HORIZONTAL;
-        // reuse global components so refreshNewOrderData / openOrderFromSelected work
         if (cbMejaGlobal == null)
             cbMejaGlobal = new JComboBox<>();
         if (cbMenuGlobal == null)
@@ -538,7 +500,6 @@ public class RestaurantGUI extends JFrame {
         c.gridwidth = 2;
         left.add(btnSendOrder, c);
 
-        // order list
         if (currentOrderModel == null)
             currentOrderModel = new DefaultListModel<>();
         JList<String> orderList = new JList<>(currentOrderModel);
@@ -567,7 +528,6 @@ public class RestaurantGUI extends JFrame {
                 return;
             }
             Meja meja = restaurant.getDaftarMeja().get(cbMejaGlobal.getSelectedIndex());
-            // Jika meja sudah ditempati, batalkan pembuatan pesanan dan beri pesan jelas
             if (!RestaurantSystem.MEJA_KOSONG.equals(meja.getStatus())) {
                 JOptionPane.showMessageDialog(this,
                         "Pesanan gagal: Meja " + meja.getNomor() + " sudah ditempati.",
@@ -611,15 +571,12 @@ public class RestaurantGUI extends JFrame {
             }
         });
 
-        // populate choices
         cbMejaGlobal.removeAllItems();
         for (Meja m : restaurant.getDaftarMeja())
             cbMejaGlobal.addItem(m.getNomor() + " (" + m.getStatus() + ")");
         cbMenuGlobal.removeAllItems();
         for (MenuItem mm : restaurant.getDaftarMenu())
             cbMenuGlobal.addItem(mm.getId() + " - " + mm.getNama());
-        // reload pelayanMenuModel (in case menu changed)
-        // (pelayanMenuModel already filled earlier; could be refreshed here if needed)
 
         JPanel right = new JPanel(new BorderLayout(6, 6));
         right.add(spMenu, BorderLayout.CENTER);
@@ -630,7 +587,6 @@ public class RestaurantGUI extends JFrame {
         return p;
     }
 
-    // Koki panel
     private JTable kokiTable;
     private DefaultTableModel kokiModel;
 
@@ -663,7 +619,6 @@ public class RestaurantGUI extends JFrame {
                 return;
             }
             int id = Integer.parseInt(kokiModel.getValueAt(s, 0).toString());
-            // gunakan API updateStatusPesanan
             boolean ok = restaurant.updateStatusPesanan(id, RestaurantSystem.STATUS_DIPROSES);
             if (ok) {
                 restaurant.simpanSemuaDataPesanan();
@@ -700,10 +655,8 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    // Kasir panel
     private JTable kasirTable;
     private DefaultTableModel kasirModel;
-    // riwayat transaksi
     private JTable historyTable;
     private DefaultTableModel historyModel;
 
@@ -713,7 +666,6 @@ public class RestaurantGUI extends JFrame {
         h.setFont(h.getFont().deriveFont(Font.BOLD, 16f));
         p.add(h, BorderLayout.NORTH);
 
-        // pembayaran tab (pesanan STATUS_SELESAI)
         String[] cols = { "ID", "Meja", "Total", "Status" };
         kasirModel = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) {
@@ -730,7 +682,6 @@ public class RestaurantGUI extends JFrame {
         payPanel.add(new JScrollPane(kasirTable), BorderLayout.CENTER);
         payPanel.add(payBtns, BorderLayout.SOUTH);
 
-        // riwayat tab (transaksi)
         String[] colsHist = { "ID Transaksi", "ID Pesanan", "Meja", "Total", "Metode" };
         historyModel = new DefaultTableModel(colsHist, 0) {
             public boolean isCellEditable(int r, int c) {
@@ -745,13 +696,11 @@ public class RestaurantGUI extends JFrame {
         histPanel.add(new JScrollPane(historyTable), BorderLayout.CENTER);
         histPanel.add(histBtns, BorderLayout.SOUTH);
 
-        // tabbed pane
         JTabbedPane tab = new JTabbedPane();
         tab.addTab("Pembayaran", payPanel);
         tab.addTab("Riwayat", histPanel);
         p.add(tab, BorderLayout.CENTER);
 
-        // pembayaran action (sama seperti sebelumnya)
         btnBayar.addActionListener(e -> {
             int s = kasirTable.getSelectedRow();
             if (s < 0) {
@@ -765,7 +714,6 @@ public class RestaurantGUI extends JFrame {
                 return;
             }
 
-            // preview rincian
             StringBuilder sb = new StringBuilder();
             sb.append(String.format("Pesanan ID: %d\nMeja: %d\nStatus: %s\n\n", pObj.getIdPesanan(),
                     pObj.getMeja().getNomor(), pObj.getStatus()));
@@ -832,7 +780,6 @@ public class RestaurantGUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         });
 
-        // lihat struk & rincian dari riwayat
         btnViewStruk.addActionListener(e -> {
             int r = historyTable.getSelectedRow();
             if (r < 0) {
@@ -841,8 +788,6 @@ public class RestaurantGUI extends JFrame {
             }
             try {
                 int trxId = Integer.parseInt(historyModel.getValueAt(r, 0).toString());
-                // ambil daftar transaksi via reflection (nama metode di RestaurantSystem bisa
-                // berbeda)
                 java.util.List<?> trxList = null;
                 try {
                     Method m = restaurant.getClass().getMethod("getDaftarTransaksi");
@@ -893,10 +838,8 @@ public class RestaurantGUI extends JFrame {
                     return;
                 }
 
-                // Panggil Struk.cetak(...) via reflection, atau fallback to toString()
                 String struk = null;
                 try {
-                    // coba metode Struk.cetak(...) yang menerima tipe transaksi
                     Method foundMeth = null;
                     for (Method m : Struk.class.getDeclaredMethods()) {
                         if (!m.getName().equals("cetak"))
@@ -910,7 +853,6 @@ public class RestaurantGUI extends JFrame {
                         }
                     }
                     if (foundMeth == null) {
-                        // coba signature umum cetak(Object)
                         try {
                             foundMeth = Struk.class.getMethod("cetak", Object.class);
                         } catch (Exception ex) {
@@ -923,7 +865,6 @@ public class RestaurantGUI extends JFrame {
                             struk = res.toString();
                     }
                 } catch (Exception ex) {
-                    // fallback ke toString()
                 }
                 if (struk == null)
                     struk = found.toString();
@@ -958,8 +899,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    // Refresh tabel riwayat transaksi (dipanggil setelah pembayaran atau pada
-    // refreshAll)
     private void refreshHistoryTable() {
         if (historyModel == null)
             return;
@@ -1039,7 +978,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    // jika refreshTablesPanel belum ada (safety), definisikan juga
     private void refreshTablesPanel() {
         if (tablesListModel == null) {
             tablesListModel = new DefaultListModel<>();
@@ -1058,8 +996,6 @@ public class RestaurantGUI extends JFrame {
         }
     }
 
-    // Tambahan: helper-methods yang sebelumnya hilang (gabungkan sebelum '}' akhir
-    // kelas)
     private JPanel buildTablesPanel() {
         if (tablesListModel == null)
             tablesListModel = new DefaultListModel<>();
@@ -1073,7 +1009,6 @@ public class RestaurantGUI extends JFrame {
 
     @SuppressWarnings("unchecked")
     private <T extends JComponent> T findComponentInCard(String name) {
-        // dukung cbMenu / cbMeja yang digunakan oleh openOrderFromSelected
         if ("cbMenu".equals(name) || "cbMenuGlobal".equals(name))
             return (T) cbMenuGlobal;
         if ("cbMeja".equals(name) || "cbMejaGlobal".equals(name))
@@ -1082,7 +1017,6 @@ public class RestaurantGUI extends JFrame {
     }
 
     private void refreshNewOrderData() {
-        // safe-init dan isi combo meja/menu
         if (cbMejaGlobal == null)
             cbMejaGlobal = new JComboBox<>();
         if (cbMenuGlobal == null)
@@ -1106,7 +1040,6 @@ public class RestaurantGUI extends JFrame {
     }
 
     private void refreshAll() {
-        // panggil semua refresh yang relevan
         refreshMenuTable();
         refreshNewOrderData();
         refreshTablesPanel();
@@ -1126,10 +1059,8 @@ public class RestaurantGUI extends JFrame {
 
     private void onLoginSuccess(Akun a) {
         this.currentUser = a;
-        // rebuild main UI and refresh data
         buildMainUI();
         refreshAll();
-        // update dashboard header if ada
         if (dashboardHeaderLabel != null && a != null) {
             String tipe = a.getClass().getSimpleName();
             dashboardHeaderLabel.setText(
@@ -1143,7 +1074,6 @@ public class RestaurantGUI extends JFrame {
         this.currentUser = null;
         if (currentOrderModel != null)
             currentOrderModel.clear();
-        // kembali ke auth-only view
         initComponents();
         revalidate();
         repaint();
@@ -1154,30 +1084,22 @@ public class RestaurantGUI extends JFrame {
         boolean loggedIn = (currentUser != null);
         if (btnLogout != null)
             btnLogout.setVisible(loggedIn);
-        // determine role
         String role = getCurrentUserRole();
-        // menu visible for everyone
         if (btnMenu != null)
             btnMenu.setVisible(true);
-        // pelayan
         if (btnPelayan != null)
             btnPelayan.setVisible("pelayan".equalsIgnoreCase(role));
         if (btnTables != null)
             btnTables.setVisible("pelayan".equalsIgnoreCase(role));
-        // koki
         if (btnKoki != null)
             btnKoki.setVisible("koki".equalsIgnoreCase(role));
-        // kasir
         if (btnKasir != null)
             btnKasir.setVisible("kasir".equalsIgnoreCase(role));
-        // refresh only staff
         boolean isStaff = (currentUser instanceof Pegawai);
         if (btnRefresh != null)
             btnRefresh.setVisible(isStaff);
-        // auth button hidden when logged in
         if (btnAuth != null)
             btnAuth.setVisible(!loggedIn);
-        // customer sees only menu/logout
         if ("customer".equalsIgnoreCase(role)) {
             if (btnPelayan != null)
                 btnPelayan.setVisible(false);
