@@ -9,6 +9,13 @@ import java.util.Scanner;
 import java.util.stream.Collectors; 
 import java.time.format.DateTimeFormatter; 
 
+/**
+ * Kelas utama sistem restoran yang mengelola semua operasi.
+ * Menangani menu, pesanan, transaksi, customer, pegawai, dan persistensi data.
+ * 
+ * @author Kelompok 5 - UAS LAB PBO B
+ * @version 1.0
+ */
 public class RestaurantSystem {
     private List<MenuItem> daftarMenu;
     private List<Pegawai> daftarPegawai;
@@ -29,6 +36,10 @@ public class RestaurantSystem {
     private static final String RIWAYAT_STRUK_FILE_PATH = "riwayat_struk.txt";
     private static final String DELIMITER = "|"; 
 
+    /**
+     * Konstruktor untuk membuat objek RestaurantSystem.
+     * Menginisialisasi data dan memuat data dari file.
+     */
     public RestaurantSystem() {
         this.daftarMenu = new ArrayList<>();
         this.daftarPegawai = new ArrayList<>();
@@ -44,6 +55,9 @@ public class RestaurantSystem {
         muatDataPesanan(); 
     }
 
+    /**
+     * Menginisialisasi data default untuk menu dan meja.
+     */
     private void inisialisasiData() {
         // Kategori: Utama
         daftarMenu.add(new Makanan(1, "Nasi Goreng", 25000, 1, "Utama"));
@@ -66,6 +80,9 @@ public class RestaurantSystem {
         }
     }
     
+    /**
+     * Memuat data pegawai dari file.
+     */
     private void muatDataPegawaiDariFile() {
         File file = new File(PEGAWAI_FILE_PATH);
         try (Scanner fileScanner = new Scanner(file)) {
@@ -82,6 +99,9 @@ public class RestaurantSystem {
         }
     }
     
+    /**
+     * Memuat data customer dari file.
+     */
     private void muatDataCustomerDariFile() {
         File file = new File(CUSTOMER_FILE_PATH);
         int maxId = 200; 
@@ -102,6 +122,11 @@ public class RestaurantSystem {
         }
     }
     
+    /**
+     * Menyimpan customer baru ke file.
+     * 
+     * @param customer Customer yang akan disimpan
+     */
     private void simpanCustomerBaruKeFile(Customer customer) {
         try (FileWriter fw = new FileWriter(CUSTOMER_FILE_PATH, true);
              PrintWriter out = new PrintWriter(fw)) {
@@ -111,6 +136,13 @@ public class RestaurantSystem {
         }
     }
 
+    /**
+     * Mendaftarkan customer baru ke sistem.
+     * 
+     * @param nama     Nama customer
+     * @param password Password customer
+     * @return Customer yang berhasil didaftarkan
+     */
     public Customer registerCustomer(String nama, String password) {
         int idBaru = customerCounter++; 
         Customer customerBaru = new Customer(idBaru, nama, password);
@@ -119,6 +151,12 @@ public class RestaurantSystem {
         return customerBaru;
     }
     
+    /**
+     * Memeriksa apakah nama pengguna sudah terdaftar.
+     * 
+     * @param nama Nama yang akan dicek
+     * @return true jika nama sudah terdaftar, false jika belum
+     */
     public boolean cekNamaPengguna(String nama) {
         for (Pegawai p : daftarPegawai) {
             if (p.getNama().equalsIgnoreCase(nama)) return true; 
@@ -129,6 +167,13 @@ public class RestaurantSystem {
         return false; 
     }
 
+    /**
+     * Melakukan login untuk pengguna (pegawai atau customer).
+     * 
+     * @param nama     Nama pengguna
+     * @param password Password pengguna
+     * @return Objek Akun jika login berhasil, null jika gagal
+     */
     public Akun login(String nama, String password) {
         for (Pegawai p : daftarPegawai) {
             if (p.getNama().equals(nama) && p.getPassword().equals(password)) return p;
@@ -139,6 +184,9 @@ public class RestaurantSystem {
         return null; 
     }
     
+    /**
+     * Memuat data pesanan dari file.
+     */
     public void muatDataPesanan() {
         File filePesanan = new File(PESANAN_FILE_PATH);
         File fileDetail = new File(DETAIL_FILE_PATH);
@@ -209,6 +257,9 @@ public class RestaurantSystem {
         }
     }
 
+    /**
+     * Menyimpan semua data pesanan ke file.
+     */
     public void simpanSemuaDataPesanan() {
         try (PrintWriter outPesanan = new PrintWriter(new FileWriter(PESANAN_FILE_PATH, false));
              PrintWriter outDetail = new PrintWriter(new FileWriter(DETAIL_FILE_PATH, false))) {
@@ -228,6 +279,11 @@ public class RestaurantSystem {
         }
     }
     
+    /**
+     * Menyimpan riwayat transaksi ke file.
+     * 
+     * @param trx Transaksi yang akan disimpan
+     */
     private void simpanRiwayatTransaksiKeFile(Transaksi trx) {
         try (FileWriter fw = new FileWriter(RIWAYAT_FILE_PATH, true);
              PrintWriter out = new PrintWriter(fw)) {
@@ -247,6 +303,11 @@ public class RestaurantSystem {
         }
     }
 
+    /**
+     * Menyimpan struk ke file arsip.
+     * 
+     * @param strukText Teks struk yang akan disimpan
+     */
     public void simpanStrukKeFile(String strukText) {
         try (FileWriter fw = new FileWriter(RIWAYAT_STRUK_FILE_PATH, true);
              PrintWriter out = new PrintWriter(fw)) {
@@ -257,6 +318,9 @@ public class RestaurantSystem {
         }
     }
 
+    /**
+     * Menampilkan daftar menu yang tersedia.
+     */
     public void lihatMenu() {
         System.out.println("\n------------------------------------ DAFTAR MENU ------------------------------------");
         System.out.printf("%-5s | %-10s | %-20s | %-12s | %-15s | %-7s | %-10s | %-10s\n", 
@@ -269,16 +333,32 @@ public class RestaurantSystem {
         System.out.println("---------------------------------------------------------------------------------------------------------");
     }
     
+    /**
+     * Menambahkan pesanan baru ke sistem.
+     * 
+     * @param pesanan Pesanan yang akan ditambahkan
+     */
     public void tambahPesanan(Pesanan pesanan) {
         this.daftarPesanan.add(pesanan);
         simpanSemuaDataPesanan(); 
     }
 
+    /**
+     * Menambahkan transaksi baru ke sistem.
+     * 
+     * @param transaksi Transaksi yang akan ditambahkan
+     */
     public void tambahTransaksi(Transaksi transaksi) {
         this.daftarTransaksi.add(transaksi); 
         simpanRiwayatTransaksiKeFile(transaksi); 
     }
     
+    /**
+     * Mencari pesanan berdasarkan ID.
+     * 
+     * @param id ID pesanan yang dicari
+     * @return Pesanan jika ditemukan, null jika tidak ditemukan
+     */
     public Pesanan findPesananById(int id) {
         for (Pesanan p : daftarPesanan) {
             if (p.getIdPesanan() == id) {
@@ -288,6 +368,12 @@ public class RestaurantSystem {
         return null;
     }
     
+    /**
+     * Mencari meja berdasarkan nomor.
+     * 
+     * @param nomor Nomor meja yang dicari
+     * @return Meja jika ditemukan, null jika tidak ditemukan
+     */
     public Meja findMejaByNomor(int nomor) {
         for (Meja m : daftarMeja) {
             if (m.getNomor() == nomor) {
@@ -297,6 +383,12 @@ public class RestaurantSystem {
         return null;
     }
 
+    /**
+     * Mencari item menu berdasarkan nama.
+     * 
+     * @param nama Nama item menu yang dicari
+     * @return MenuItem jika ditemukan, null jika tidak ditemukan
+     */
     public MenuItem findMenuItemByName(String nama) {
         for (MenuItem item : daftarMenu) {
             if (item.getNama().equalsIgnoreCase(nama)) {
@@ -306,6 +398,12 @@ public class RestaurantSystem {
         return null;
     }
     
+    /**
+     * Mencari item menu berdasarkan ID.
+     * 
+     * @param id ID item menu yang dicari
+     * @return MenuItem jika ditemukan, null jika tidak ditemukan
+     */
     public MenuItem findMenuItemById(int id) {
         for (MenuItem item : daftarMenu) {
             if (item.getId() == id) {
@@ -315,28 +413,60 @@ public class RestaurantSystem {
         return null;
     }
 
+    /**
+     * Mendapatkan daftar semua pesanan.
+     * 
+     * @return List berisi semua pesanan
+     */
     public List<Pesanan> getDaftarPesanan() {
         return daftarPesanan;
     }
     
+    /**
+     * Mendapatkan daftar pesanan berdasarkan status.
+     * 
+     * @param status Status pesanan yang dicari
+     * @return List berisi pesanan dengan status tertentu
+     */
     public List<Pesanan> getPesananByStatus(String status) {
         return daftarPesanan.stream()
                             .filter(p -> p.getStatus().equals(status))
                             .collect(Collectors.toList());
     }
     
+    /**
+     * Mendapatkan daftar semua meja.
+     * 
+     * @return List berisi semua meja
+     */
     public List<Meja> getDaftarMeja() {
         return daftarMeja;
     }
 
+    /**
+     * Mendapatkan ID pesanan berikutnya.
+     * 
+     * @return ID pesanan berikutnya
+     */
     public int getNextPesananId() {
         return pesananCounter++; 
     }
 
+    /**
+     * Mendapatkan ID transaksi berikutnya.
+     * 
+     * @return ID transaksi berikutnya
+     */
     public int getNextTransaksiId() {
         return transaksiCounter++; 
     }
 
+    /**
+     * Mencari customer berdasarkan ID.
+     * 
+     * @param id ID customer yang dicari
+     * @return Customer jika ditemukan, null jika tidak ditemukan
+     */
     public Customer findCustomerById(int id) {
         for (Customer c : daftarCustomer) {
             if (c.getId() == id) return c;
@@ -344,12 +474,25 @@ public class RestaurantSystem {
         return null;
     }
 
+    /**
+     * Mendapatkan daftar pesanan milik customer tertentu.
+     * 
+     * @param c Customer pemilik pesanan
+     * @return List berisi pesanan customer
+     */
     public List<Pesanan> getPesananByCustomer(Customer c) {
         return daftarPesanan.stream()
                 .filter(p -> p.getCustomer() != null && p.getCustomer().getId() == c.getId())
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Membuat pesanan baru untuk customer.
+     * 
+     * @param customer  Customer yang membuat pesanan
+     * @param nomorMeja Nomor meja yang dipesan
+     * @return Pesanan yang berhasil dibuat, null jika gagal
+     */
     public Pesanan buatPesananCustomer(Customer customer, int nomorMeja) {
         Meja meja = findMejaByNomor(nomorMeja);
         if (meja == null || !meja.getStatus().equals("Tersedia")) {
@@ -362,6 +505,13 @@ public class RestaurantSystem {
         return p;
     }
 
+    /**
+     * Memproses pembayaran pesanan customer.
+     * 
+     * @param customer  Customer yang membayar
+     * @param idPesanan ID pesanan yang akan dibayar
+     * @return true jika pembayaran berhasil, false jika gagal
+     */
     public boolean bayarPesananCustomer(Customer customer, int idPesanan) {
         Pesanan p = findPesananById(idPesanan);
         if (p == null) return false;
